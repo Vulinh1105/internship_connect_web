@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đăng nhập · Internship Connect</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="login" data-root="../">
+<header class="top"><div class="bar"><a class="brand" href="../index.html">Internship Connect</a><nav id="nav"></nav></div></header>
+<main>
+<div class="grid cols-2">
+  <form class="card" id="loginForm"><h2>Đăng nhập</h2>
+    <label for="lEmail">Email</label><input id="lEmail" type="email" required autocomplete="username">
+    <label for="lPass" style="margin-top:10px">Mật khẩu</label><input id="lPass" type="password" required autocomplete="current-password">
+    <p><button class="primary">Đăng nhập</button></p>
+    <p class="muted">Tài khoản mẫu (sau khi chạy seed.sql): sv01@example.com, dn01@example.com, staff@example.com, mật khẩu Test@123</p>
+  </form>
+  <form class="card" id="registerForm"><h2>Đăng ký</h2>
+    <label for="rEmail">Email</label><input id="rEmail" type="email" required autocomplete="username">
+    <label for="rPass" style="margin-top:10px">Mật khẩu (tối thiểu 8 ký tự)</label><input id="rPass" type="password" minlength="8" required autocomplete="new-password">
+    <label for="rRole" style="margin-top:10px">Bạn là</label>
+    <select id="rRole"><option value="student">Sinh viên</option><option value="company">Doanh nghiệp</option></select>
+    <p><button class="primary">Tạo tài khoản</button></p>
+  </form>
+</div>
+</main>
+<div id="toast" role="status"></div>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>
