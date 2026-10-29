@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quản lý tuyển dụng · Internship Connect</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="company" data-root="../">
+<header class="top"><div class="bar"><a class="brand" href="../index.html">Internship Connect</a><nav id="nav"></nav></div></header>
+<main>
+<h1>Quản lý tuyển dụng</h1>
+<form class="card" id="companyForm"><h2>Hồ sơ doanh nghiệp</h2><p id="companyNote" class="muted"></p>
+  <div class="grid cols-2">
+    <div><label for="company_name">Tên doanh nghiệp *</label><input id="company_name" required maxlength="255"></div>
+    <div><label for="website">Website</label><input id="website" maxlength="255"></div>
+    <div><label for="address">Địa chỉ</label><input id="address" maxlength="255"></div>
+  </div>
+  <label for="description" style="margin-top:10px">Mô tả</label><textarea id="description" maxlength="5000"></textarea>
+  <p><button class="primary">Lưu</button></p></form>
+<div id="needCompany" style="display:none">
+  <form class="card" id="internshipForm"><h2>Đăng tin thực tập</h2>
+    <div class="grid cols-2">
+      <div><label for="title">Tên vị trí *</label><input id="title" required maxlength="255"></div>
+      <div><label for="i_location">Địa điểm</label><input id="i_location" maxlength="255"></div>
+      <div><label for="i_deadline">Hạn ứng tuyển</label><input id="i_deadline" type="date"></div>
+    </div>
+    <label for="i_description" style="margin-top:10px">Mô tả công việc</label><textarea id="i_description"></textarea>
+    <label for="i_requirements" style="margin-top:10px">Yêu cầu (kỹ năng, kiến thức)</label><textarea id="i_requirements"></textarea>
+    <p><button class="primary">Đăng tin</button></p></form>
+  <div class="card"><h2>Tin của tôi</h2><div id="myInternships"></div></div>
+  <div class="card" id="applicantsCard" style="display:none"><h2 id="applicantsTitle"></h2><div id="applicants" style="overflow-x:auto"></div></div>
+  <div class="card"><h2>Lịch phỏng vấn</h2><div id="interviews"></div></div>
+</div>
+<dialog id="inviteDialog"><form id="inviteForm"><h2>Mời phỏng vấn: <span id="invName"></span></h2>
+  <label for="when">Thời gian</label><input id="when" type="datetime-local" required>
+  <label for="where" style="margin-top:10px">Địa điểm hoặc link họp</label><input id="where" required maxlength="255">
+  <label for="iv_note" style="margin-top:10px">Ghi chú</label><textarea id="iv_note" maxlength="2000"></textarea>
+  <p class="row"><button class="primary">Gửi lời mời</button><button type="button" id="inviteCancel">Hủy</button></p></form></dialog>
+</main>
+<div id="toast" role="status"></div>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>
