@@ -1,3 +1,5 @@
+from .moderation import submit_for_review, screen
+from app.utils.timeutil import utcnow
 """Logic nghiệp vụ M13: doanh nghiệp, tin thực tập, ứng tuyển, xét duyệt."""
 import os
 from .repository import get_company_by_user_id
@@ -80,14 +82,14 @@ def list_companies(db: Session, params: PageParams):
 
 # ======================= Tin thực tập =======================
 def _is_open_now(internship: Internship) -> bool:
-    if internship.status != "open":
+    if internship.deleted_at is not None or internship.moderation_status != "approved" or internship.status != "open":
         return False
     return internship.deadline is None or internship.deadline >= date.today()
 
 
 def get_internship(db: Session, internship_id: int) -> Internship:
     internship = db.get(Internship, internship_id)
-    if internship is None:
+    if internship is None or internship.deleted_at is not None:
         raise HTTPException(404, "Không tìm thấy vị trí thực tập")
     return internship
 
@@ -112,6 +114,7 @@ def create_internship(db: Session, user: User, data: InternshipCreate) -> Intern
     if data.deadline is not None and data.deadline < date.today():
         raise HTTPException(400, "Hạn ứng tuyển không được ở quá khứ")
     internship = Internship(company_id=company.id, **data.model_dump())
+    submit_for_review(internship)
     db.add(internship)
     db.commit()
     db.refresh(internship)
@@ -126,8 +129,12 @@ def update_internship(db: Session, user: User, internship_id: int, data: Interns
         raise HTTPException(400, "title không được để trống")
     if "status" in values and values["status"] is None:
         raise HTTPException(400, "status không hợp lệ")
+    if "deadline" in values and values["deadline"] is not None and values["deadline"] < date.today():
+        raise HTTPException(400, "Hạn ứng tuyển không được ở quá khứ")
     for key, value in values.items():
         setattr(internship, key, value)
+    if any(key in values for key in ("title", "description", "requirements", "location", "deadline")):
+        submit_for_review(internship)
     db.commit()
     db.refresh(internship)
     return internship
@@ -149,6 +156,8 @@ def list_internships(db: Session, params: PageParams, q: str | None = None, loca
         .join(Company, Internship.company_id == Company.id)
         .where(
             Internship.status == "open",
+            Internship.moderation_status == "approved",
+            Internship.deleted_at.is_(None),
             or_(Internship.deadline.is_(None), Internship.deadline >= date.today()),
         )
     )
@@ -173,15 +182,17 @@ def list_internships(db: Session, params: PageParams, q: str | None = None, loca
 
 def list_my_internships(db: Session, user: User, params: PageParams):
     company = require_company(db, user)
-    stmt = select(Internship).where(Internship.company_id == company.id)
+    stmt = select(Internship).where(Internship.company_id == company.id, Internship.deleted_at.is_(None))
     return paginate(db, stmt, params, order_by=[Internship.id.desc()])
 
 
 def get_stats(db: Session) -> InternshipStats:
-    total = db.scalar(select(func.count()).select_from(Internship)) or 0
+    total = db.scalar(select(func.count()).select_from(Internship).where(Internship.deleted_at.is_(None))) or 0
     open_count = db.scalar(
         select(func.count()).select_from(Internship).where(
             Internship.status == "open",
+            Internship.moderation_status == "approved",
+            Internship.deleted_at.is_(None),
             or_(Internship.deadline.is_(None), Internship.deadline >= date.today()),
         )
     ) or 0
@@ -332,3 +343,43 @@ def get_application_cv_path(db: Session, user: User, application_id: int) -> tup
     if cv is None or not os.path.isfile(cv.file_path):
         raise HTTPException(404, "Không tìm thấy file CV")
     return cv.file_path, cv.file_name
+
+
+def public_detail(db, internship_id):
+    item = get_internship(db, internship_id)
+    if item.moderation_status != "approved":
+        raise HTTPException(404, "Tin chưa được công khai")
+    return item
+
+
+def delete_internship(db, user, internship_id):
+    item = get_internship(db, internship_id)
+    assert_can_manage(db, user, item)
+    item.deleted_at = utcnow()
+    item.status = "closed"
+    db.commit()
+
+
+def moderation_queue(db, params, status=None):
+    stmt = select(Internship).where(Internship.deleted_at.is_(None))
+    if status:
+        stmt = stmt.where(Internship.moderation_status == status)
+    return paginate(db, stmt, params, order_by=[Internship.id.desc()])
+
+
+def review_internship(db, user, internship_id, data):
+    if user.role not in ("staff", "admin"):
+        raise HTTPException(403, "Không có quyền duyệt tin")
+    item = get_internship(db, internship_id)
+    if data.decision == "rejected" and not (data.reason or "").strip():
+        raise HTTPException(400, "Cần nhập lý do từ chối")
+    if data.decision == "approved" and item.deadline is not None and item.deadline < date.today():
+        raise HTTPException(400, "Không thể duyệt tin đã hết hạn")
+    item.auto_flags = screen(item)
+    item.moderation_status = data.decision
+    item.rejection_reason = data.reason.strip() if data.decision == "rejected" else None
+    item.reviewed_by = user.id
+    item.reviewed_at = utcnow()
+    db.commit()
+    db.refresh(item)
+    return item

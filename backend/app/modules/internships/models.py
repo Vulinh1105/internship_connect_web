@@ -43,6 +43,13 @@ class Internship(Base):
     status = Column(String(20), nullable=False, default="open")
     created_at = Column(DateTime, nullable=False, default=utcnow)
 
+    moderation_status = Column(String(20), nullable=False, default="pending", server_default="pending")
+    auto_flags = Column(Text)
+    rejection_reason = Column(Text)
+    reviewed_by = Column(Integer, ForeignKey("users.id"))
+    reviewed_at = Column(DateTime)
+    deleted_at = Column(DateTime)
+
     company = relationship("Company", back_populates="internships")
     applications = relationship("Application", back_populates="internship")
 

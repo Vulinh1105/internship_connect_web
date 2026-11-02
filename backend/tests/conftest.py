@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 # Phải đặt TRƯỚC khi import app
 os.environ["DATABASE_URL"] = "sqlite://"
 os.environ["AUTO_CREATE_TABLES"] = "true"
+os.environ["KNOWLEDGE_AUTO_INDEX"] = "false"
 os.environ["VECTOR_BACKEND"] = "memory"
 os.environ["EMBEDDING_BACKEND"] = "hashing"
 os.environ["LLM_API_KEY"] = ""
@@ -72,3 +73,20 @@ def company(client, make_user):
     r = client.post("/api/companies", headers=headers, json={"company_name": "Cong ty Test"})
     assert r.status_code == 201, r.text
     return headers
+
+
+def approve_post(client, internship_id):
+    """Explicit human-review step for legacy published-post test fixtures."""
+    from app.core.database import SessionLocal
+    from app.modules.auth.models import User
+    from app.core.security import hash_password, create_access_token
+    from sqlalchemy import select
+    with SessionLocal() as db:
+        admin = db.scalar(select(User).where(User.email == "reviewer@tests.local"))
+        if admin is None:
+            admin = User(email="reviewer@tests.local", role="admin", password_hash=hash_password("Review@123"))
+            db.add(admin); db.commit()
+        token = create_access_token(admin.id, admin.role)
+    response = client.post(f"/api/internships/{internship_id}/review", headers={"Authorization": "Bearer " + token}, json={"decision": "approved"})
+    assert response.status_code == 200, response.text
+    return response.json()

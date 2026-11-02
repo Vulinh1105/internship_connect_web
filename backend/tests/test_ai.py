@@ -1,3 +1,4 @@
+from conftest import approve_post
 from datetime import date, timedelta
 
 from app.modules.ai.matching.embeddings import cosine, get_embedder
@@ -32,6 +33,7 @@ def _post(client, company, title, requirements):
         json={"title": title, "requirements": requirements, "deadline": (date.today() + timedelta(days=30)).isoformat()},
     )
     assert r.status_code == 201
+    approve_post(client, r.json()["id"])
 
 
 def test_recommendations_rank_relevant_first(client, company, student):

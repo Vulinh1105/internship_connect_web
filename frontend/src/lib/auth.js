@@ -48,6 +48,7 @@ function renderNav() {
   if (user && user.role === "company") links.push([r + "src/pages/company.html", "Quản lý tuyển dụng"]);
   if (user && ["staff", "admin"].includes(user.role)) links.push([r + "src/pages/documents.html", "Tài liệu kiến thức"]);
   if (user && ["staff", "admin"].includes(user.role)) links.push([r + "src/pages/dashboard.html", "Quản trị"]);
+  if (user && ["staff", "admin"].includes(user.role)) links.push([r + "src/pages/moderation.html", "Kiểm duyệt bài đăng"]);
   if (user) links.push([r + "src/pages/chatbot.html", "Trợ lý AI"]);
   nav.innerHTML = links.map(([href, text]) => `<a href="${href}">${text}</a>`).join("");
   const who = document.createElement("span");

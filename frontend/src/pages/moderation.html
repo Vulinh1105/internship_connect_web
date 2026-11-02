@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kiểm duyệt bài đăng</title><link rel="stylesheet" href="../styles/style.css"></head>
+<body data-root="../../"><header class="top"><div class="bar"><a class="brand" href="../../index.html">Internship Connect</a><nav id="nav"></nav></div></header>
+<main class="container"><h1>Kiểm duyệt bài đăng</h1><p>Mọi bài đăng cần được duyệt. Cảnh báo tự động chỉ hỗ trợ người duyệt, có thể bỏ sót hoặc gắn cờ nhầm.</p>
+<label>Trạng thái <select id="filter"><option value="pending">Chờ duyệt</option><option value="approved">Đã duyệt</option><option value="rejected">Từ chối</option><option value="">Tất cả</option></select></label>
+<button id="refresh">Làm mới</button><p id="summary" role="status"></p><div id="posts"></div><button id="prev">Trang trước</button><button id="next">Trang sau</button></main><div id="toast" role="status"></div>
+<script src="../api/client.js"></script><script src="../lib/auth.js"></script><script src="../lib/ui.js"></script><script src="../features/moderation.js"></script></body></html>

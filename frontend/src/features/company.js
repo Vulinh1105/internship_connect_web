@@ -37,7 +37,7 @@ function pageCompany() {
       const body = { title: $("#title").value };
       ["description", "requirements", "location", "deadline"].forEach(f => { const v = $("#i_" + f).value.trim(); if (v) body[f] = v; });
       await api(editingId ? `/internships/${editingId}` : "/internships", { method: editingId ? "PUT" : "POST", body });
-      toast(editingId ? "Đã cập nhật tin" : "Đã đăng tin"); resetEditor(); await loadInternships();
+      toast("Đã lưu tin và gửi kiểm duyệt"); resetEditor(); await loadInternships();
     });
   };
 
@@ -45,11 +45,16 @@ function pageCompany() {
     const data = await api("/internships/mine?page_size=100");
     myInternships = data.items;
     $("#myInternships").innerHTML = data.items.length
-      ? data.items.map(i => internshipCard(i, `<button class="small" data-edit="${i.id}">Sửa tin</button><button class="small" data-view="${i.id}" data-title="${esc(i.title)}">Xem ứng viên</button>` +
+      ? data.items.map(i => internshipCard(i, `<p>Kiểm duyệt: ${esc(i.moderation_status)}${i.rejection_reason ? " · " + esc(i.rejection_reason) : ""}</p><p>${esc(i.auto_flags || "")}</p><button class="small danger" data-delete-post="${i.id}">Xóa tin</button><button class="small" data-edit="${i.id}">Sửa tin</button><button class="small" data-view="${i.id}" data-title="${esc(i.title)}">Xem ứng viên</button>` +
           (i.status === "open" ? `<button class="small danger" data-close="${i.id}">Đóng tin</button>` : ""))).join("")
       : `<p class="muted">Chưa có tin nào.</p>`;
   }
   $("#myInternships").onclick = e => {
+    const del = e.target.closest("[data-delete-post]");
+    if (del && confirm("Xóa bài đăng? Lịch sử ứng tuyển được giữ lại.")) {
+      run(async () => { await api(`/internships/${del.dataset.deletePost}`, {method: "DELETE"}); await loadInternships(); });
+      return;
+    }
     const edit = e.target.closest("[data-edit]");
     if (edit) {
       const item = myInternships.find(i => i.id === Number(edit.dataset.edit));

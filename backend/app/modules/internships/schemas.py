@@ -63,6 +63,17 @@ class InternshipOut(BaseModel):
     deadline: date | None = None
     status: str
     created_at: datetime
+    moderation_status: str
+    auto_flags: str | None = None
+    rejection_reason: str | None = None
+    reviewed_by: int | None = None
+    reviewed_at: datetime | None = None
+    deleted_at: datetime | None = None
+
+
+class ReviewRequest(BaseModel):
+    decision: Literal["approved", "rejected"]
+    reason: str | None = Field(None, max_length=2000)
 
 
 class InternshipStats(BaseModel):

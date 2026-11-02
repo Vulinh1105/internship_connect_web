@@ -9,6 +9,7 @@ from app.utils.pagination import Page, PageParams, make_page
 
 from . import service
 from .schemas import (
+    ReviewRequest,
     ApplicantOut,
     ApplicationCreate,
     ApplicationOut,
@@ -88,9 +89,25 @@ def internship_stats(_user: User = Depends(_staff_admin), db: Session = Depends(
     return service.get_stats(db)
 
 
+@router.get("/api/internships/moderation", response_model=Page[InternshipOut])
+def moderation_queue(params: PageParams = Depends(), status: str | None = Query(None, pattern="^(pending|approved|rejected)$"), user: User = Depends(_staff_admin), db: Session = Depends(get_db)):
+    rows, total = service.moderation_queue(db, params, status)
+    return make_page([InternshipOut.model_validate(r) for r in rows], total, params)
+
+
+@router.post("/api/internships/{internship_id}/review", response_model=InternshipOut)
+def review_internship(internship_id: int, data: ReviewRequest, user: User = Depends(_staff_admin), db: Session = Depends(get_db)):
+    return service.review_internship(db, user, internship_id, data)
+
+
+@router.delete("/api/internships/{internship_id}", status_code=204)
+def delete_internship(internship_id: int, user: User = Depends(require_role("company", "staff", "admin")), db: Session = Depends(get_db)):
+    service.delete_internship(db, user, internship_id)
+
+
 @router.get("/api/internships/{internship_id}", response_model=InternshipOut)
 def get_internship(internship_id: int, db: Session = Depends(get_db)):
-    return service.get_internship(db, internship_id)
+    return service.public_detail(db, internship_id)
 
 
 @router.put("/api/internships/{internship_id}", response_model=InternshipOut)

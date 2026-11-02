@@ -1,3 +1,4 @@
+from conftest import approve_post
 from datetime import date, datetime, timedelta
 
 
@@ -16,7 +17,7 @@ def _post_internship(client, company, **overrides):
     body.update(overrides)
     r = client.post("/api/internships", headers=company, json=body)
     assert r.status_code == 201, r.text
-    return r.json()
+    return approve_post(client, r.json()["id"])
 
 
 def test_company_profile_only_once(client, company):

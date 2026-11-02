@@ -29,6 +29,8 @@ def _open_internships(db: Session) -> list[Internship]:
         .options(joinedload(Internship.company))
         .where(
             Internship.status == "open",
+            Internship.moderation_status == "approved",
+            Internship.deleted_at.is_(None),
             or_(Internship.deadline.is_(None), Internship.deadline >= date.today()),
         )
         .order_by(Internship.id)
