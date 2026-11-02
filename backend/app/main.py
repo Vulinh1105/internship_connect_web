@@ -1,6 +1,8 @@
-"""Điểm khởi động: tạo ứng dụng FastAPI và đăng ký router của các module."""
+"""Start: tạo ứng dụng FastAPI và đăng ký router của các module."""
 import logging
 from pathlib import Path
+from contextlib import asynccontextmanager
+from starlette.concurrency import run_in_threadpool
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,8 +12,8 @@ from fastapi.responses import RedirectResponse
 from app.core.config import settings
 from app.core.database import Base, engine
 
-# Import tất cả model để SQLAlchemy biết đủ các bảng và khóa ngoại
-from app.modules.auth import models as _auth_models  # noqa: F401
+
+from app.modules.auth import models as _auth_models  # noqa: F401 - import model - ko sd trực tiếp
 from app.modules.students import models as _student_models  # noqa: F401
 from app.modules.internships import models as _internship_models  # noqa: F401
 from app.modules.interviews import models as _interview_models  # noqa: F401
@@ -33,7 +35,15 @@ if "dev-only-secret" in settings.JWT_SECRET:
 if settings.AUTO_CREATE_TABLES:
     Base.metadata.create_all(bind=engine)  # bảng đã có thì bỏ qua
 
+# uvicorn nhận request từ trình duyệt  -> chuyển request vào ứng dụng FastApi
+@asynccontextmanager
+async def lifespan(app):
+    from app.modules.documents.knowledge_sync import startup_sync
+    await run_in_threadpool(startup_sync)
+    yield
+
 app = FastAPI(
+    lifespan=lifespan,
     title="Internship Connect API",
     description="Hệ thống kết nối sinh viên với doanh nghiệp thực tập (M03, M13, M20, phỏng vấn, AI).",
     version="1.0.0",
@@ -45,6 +55,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 app.include_router(auth_router)
 app.include_router(students_router)
@@ -68,3 +79,5 @@ def home():
 _FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
 if _FRONTEND_DIR.is_dir():
     app.mount("/app", StaticFiles(directory=str(_FRONTEND_DIR), html=True), name="frontend")
+
+

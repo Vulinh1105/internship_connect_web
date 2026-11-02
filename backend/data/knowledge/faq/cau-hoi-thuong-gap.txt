@@ -1,0 +1,56 @@
+CÂU HỎI THƯỜNG GẶP – INTERNSHIP CONNECT
+
+1. Internship Connect là gì?
+Internship Connect là nền tảng hỗ trợ sinh viên tìm kiếm cơ hội thực tập và giúp doanh nghiệp đăng tuyển, tiếp nhận, quản lý hồ sơ ứng tuyển. Sinh viên có thể tạo hồ sơ, tìm kiếm vị trí phù hợp, ứng tuyển và theo dõi trạng thái hồ sơ.
+
+2. Ai có thể sử dụng hệ thống?
+Sinh viên có tài khoản hợp lệ có thể tìm kiếm và ứng tuyển vị trí thực tập. Doanh nghiệp đã đăng ký và được hệ thống xác thực có thể tạo hồ sơ doanh nghiệp, đăng tin tuyển thực tập sinh và quản lý ứng viên. Quản trị viên phụ trách kiểm duyệt và hỗ trợ vận hành.
+
+3. Làm thế nào để tạo tài khoản?
+Chọn chức năng Đăng ký, điền các thông tin được yêu cầu như họ tên, email, mật khẩu và loại tài khoản. Sử dụng email đang hoạt động để nhận thông báo hoặc xác minh nếu hệ thống bật tính năng này. Không chia sẻ mật khẩu cho người khác.
+
+4. Tôi quên mật khẩu thì phải làm gì?
+Tại màn hình đăng nhập, chọn Quên mật khẩu (nếu được cung cấp), nhập email đã đăng ký và làm theo hướng dẫn nhận được. Nếu không nhận được thư, hãy kiểm tra thư rác và xác nhận email nhập đúng. Trường hợp vẫn không thể truy cập, liên hệ bộ phận hỗ trợ.
+
+5. Sinh viên cần chuẩn bị gì trước khi ứng tuyển?
+Sinh viên nên hoàn thiện hồ sơ cá nhân, cập nhật ngành học, kỹ năng, kinh nghiệm/dự án, thời gian có thể thực tập và tải CV mới nhất. Đọc kỹ mô tả công việc, yêu cầu, địa điểm, thời hạn và tài liệu doanh nghiệp yêu cầu.
+
+6. Làm thế nào để tìm vị trí thực tập?
+Mở mục Tìm kiếm việc thực tập, nhập từ khóa hoặc sử dụng bộ lọc theo ngành nghề, địa điểm, hình thức làm việc, thời gian và doanh nghiệp. Đọc chi tiết từng tin trước khi ứng tuyển.
+
+7. Làm thế nào để ứng tuyển?
+Mở tin tuyển dụng phù hợp, chọn Ứng tuyển, kiểm tra thông tin hồ sơ, đính kèm CV hoặc tài liệu được yêu cầu và gửi đơn. Chỉ gửi khi đã kiểm tra nội dung và thông tin liên hệ.
+
+8. Tôi có thể ứng tuyển nhiều vị trí không?
+Có thể ứng tuyển nhiều vị trí nếu đáp ứng điều kiện của từng tin. Tuy nhiên, hãy cân nhắc lịch học, thời gian thực tập và khả năng tham gia thực tế. Không gửi hồ sơ trùng lặp cho cùng một vị trí nếu tin tuyển dụng không cho phép.
+
+9. Làm sao biết hồ sơ đã được gửi thành công?
+Sau khi gửi, hệ thống nên hiển thị thông báo xác nhận và lưu đơn trong mục Hồ sơ ứng tuyển. Nếu không thấy đơn, hãy kiểm tra kết nối mạng và trạng thái gửi trước khi thao tác lại để tránh tạo đơn trùng.
+
+10. Các trạng thái hồ sơ ứng tuyển có ý nghĩa gì?
+Chờ xem xét: doanh nghiệp đã nhận hồ sơ nhưng chưa cập nhật kết quả. Đang xem xét: doanh nghiệp đang đánh giá. Mời phỏng vấn: doanh nghiệp muốn trao đổi thêm. Được chấp nhận: ứng viên được chọn. Từ chối: hồ sơ không được chọn. Đã rút: sinh viên chủ động rút đơn (nếu hệ thống hỗ trợ).
+
+11. Tôi có thể chỉnh sửa hồ sơ sau khi ứng tuyển không?
+Bạn có thể cập nhật hồ sơ cá nhân cho các lần ứng tuyển sau. Việc thay đổi tài liệu của một đơn đã gửi phụ thuộc chức năng hệ thống và chính sách của doanh nghiệp. Nếu cần thay CV, hãy liên hệ doanh nghiệp qua kênh chính thức.
+
+12. Doanh nghiệp đăng tin thực tập như thế nào?
+Doanh nghiệp đăng nhập bằng tài khoản doanh nghiệp, hoàn thiện thông tin tổ chức và mở chức năng Quản lý tin tuyển dụng. Điền tiêu đề, mô tả công việc, số lượng, yêu cầu, quyền lợi, địa điểm, hình thức, thời gian và hạn ứng tuyển; sau đó gửi tin để kiểm duyệt nếu hệ thống yêu cầu.
+
+13. Vì sao tin tuyển dụng chưa xuất hiện?
+Tin có thể đang chờ quản trị viên kiểm duyệt, thiếu thông tin, vi phạm quy định hoặc đã hết hạn/được ẩn. Doanh nghiệp nên kiểm tra trạng thái tin và thông báo từ hệ thống.
+
+14. Doanh nghiệp xem và đánh giá ứng viên ở đâu?
+Trong mục Quản lý ứng viên hoặc Hồ sơ ứng tuyển, doanh nghiệp có thể xem các đơn đã nhận, đọc CV và thông tin ứng viên, cập nhật trạng thái và ghi chú phục vụ quá trình tuyển chọn. Chỉ người có quyền phù hợp mới được truy cập.
+
+15. Tôi gặp tin tuyển dụng đáng ngờ thì báo cáo thế nào?
+Sử dụng chức năng Báo cáo tin tuyển dụng nếu có, chọn lý do và mô tả vấn đề, đính kèm bằng chứng phù hợp. Không chuyển tiền hoặc cung cấp mật khẩu, mã OTP, thông tin ngân hàng cho bên tuyển dụng.
+
+16. Hệ thống có bảo đảm tôi sẽ được nhận thực tập không?
+Không. Hệ thống hỗ trợ kết nối và quản lý quy trình, nhưng quyết định tuyển chọn thuộc doanh nghiệp. Sinh viên cần đáp ứng yêu cầu, chuẩn bị hồ sơ và tham gia phỏng vấn theo hướng dẫn.
+
+17. Tôi có phải trả phí để ứng tuyển không?
+Theo mô hình sử dụng thông thường của nền tảng, sinh viên không phải trả phí chỉ để tạo hồ sơ hoặc gửi đơn ứng tuyển. Nếu một bên yêu cầu khoản phí bất thường, hãy xác minh trực tiếp với doanh nghiệp và báo cáo quản trị viên. Nội dung này cần được điều chỉnh theo chính sách triển khai thực tế.
+
+18. Tôi liên hệ hỗ trợ bằng cách nào?
+Truy cập mục Liên hệ/Hỗ trợ trên hệ thống hoặc sử dụng địa chỉ email hỗ trợ được công bố tại trang chủ. Khi gửi yêu cầu, nêu rõ email tài khoản, mã tin tuyển dụng/đơn ứng tuyển (nếu có), thời điểm xảy ra lỗi và ảnh chụp màn hình; không gửi mật khẩu hoặc OTP.
+
