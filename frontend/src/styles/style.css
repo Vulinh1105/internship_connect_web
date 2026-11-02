@@ -197,3 +197,45 @@ input + label, select + label, textarea + label { margin-top: 14px; }
   .hero-logo { max-width: 160px; }
 }
 .card > .row { margin-top: 16px; }
+
+/* ===== Bo góc, mềm mại hơn ===== */
+:root { --r-sm: 10px; --r: 16px; --r-lg: 28px; }
+h1, h2 { font-weight: 700; }
+.brand, .metric strong, footer.site .foot-name, .hero h1, .steps h2 { font-weight: 700; }
+.card, .item, .steps li, .notice, .metric, dialog { border-radius: var(--r); }
+.item { margin-bottom: 12px; transition: transform .2s, box-shadow .2s; }
+.item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(11, 92, 158, .10); }
+.steps ol { gap: 12px; }
+input, select, textarea { border-radius: var(--r-sm); border-color: transparent; background: var(--field); }
+.card input, .card select, .card textarea { border: 1px solid var(--field-line); }
+button, .btn { border-radius: 999px; border-width: 1.5px; padding: 10px 22px; }
+button.small { padding: 5px 14px; }
+nav#nav a { border-radius: 999px; padding: 8px 14px; }
+nav#nav .who a, nav#nav .who button { border-radius: 999px; }
+.badge, .chip { border-radius: 999px; }
+.table-scroll { border-radius: var(--r); }
+.chat-message { border-radius: var(--r); }
+#toast { border-radius: var(--r-sm); }
+/* Hero và footer: mảng xanh có góc dưới/trên bo tròn lớn */
+.hero { border-radius: 0 0 var(--r-lg) var(--r-lg); }
+footer.site { border-radius: var(--r-lg) var(--r-lg) 0 0; }
+.hero-search { background: #fff; padding: 6px; border-radius: 999px; gap: 6px; flex-wrap: nowrap; }
+.hero-search input { border: 0; background: transparent; color: #0e2238; padding: 12px 18px; border-radius: 999px; flex: 1 1 auto; min-width: 0; }
+.hero-search input:focus { outline: none; }
+.hero-search:focus-within { outline: 3px solid var(--accent); outline-offset: 2px; }
+.hero-search button.primary { border-radius: 999px; padding: 12px 26px; }
+.hero-logo { filter: none; }
+@media (max-width: 480px) { .hero-search { border-radius: var(--r); flex-wrap: wrap; } .hero-search button.primary { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .item:hover { transform: none; } }
+
+/* ===== Trang chi tiết thực tập: chỉ 3 cỡ chữ (28 / 18 / 16) ===== */
+.detail-page { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.detail-page .back { grid-column: 1 / -1; font-size: 16px; }
+.detail-page .card { margin-bottom: 0; font-size: 16px; line-height: 1.7; }
+.detail-page h1 { font-size: 28px; line-height: 1.25; letter-spacing: 0; margin: 4px 0 12px; }
+.detail-page h2 { font-size: 18px; line-height: 1.4; letter-spacing: 0; margin: 28px 0 8px; }
+.detail-page #companyDetail h2 { margin-top: 0; }
+.detail-page .muted, .detail-page .badge, .detail-page .notice, .detail-page .btn { font-size: 16px; }
+.detail-page .badge { padding: 2px 12px; background: var(--bg); }
+.detail-page .btn { margin-top: 12px; }
+@media (max-width: 860px) { .detail-page { grid-template-columns: 1fr; } }
