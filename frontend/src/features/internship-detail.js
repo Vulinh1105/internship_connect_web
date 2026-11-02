@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const id = Number(new URLSearchParams(location.search).get("id"));
       if (!Number.isInteger(id) || id <= 0) throw new Error("Đường dẫn tin thực tập không hợp lệ.");
       const item = await api(`/internships/${id}`, {auth: false});
-      document.title = item.title + " · Internship Connect";
+      document.title = item.title + " · Kết nối thực tập NEU";
       const user = getUser();
       const available = item.status === "open" && (!item.deadline || item.deadline >= new Date().toLocaleDateString("en-CA"));
       const applyUrl = `internships.html?q=${encodeURIComponent(item.title)}&apply=${item.id}`;
-      $("#internshipDetail").innerHTML = `<p class="eyebrow">${esc(item.company_name)}</p><h1>${esc(item.title)}</h1><p>${badge(item.status)} <span class="muted">${esc(item.location || "Chưa cập nhật địa điểm")} · Hạn ${fmtDay(item.deadline)}</span></p>
+      $("#internshipDetail").innerHTML = `<p class="muted">${esc(item.company_name)}</p><h1>${esc(item.title)}</h1><p>${badge(item.status)} <span class="muted">${esc(item.location || "Chưa cập nhật địa điểm")} · Hạn ${fmtDay(item.deadline)}</span></p>
         <h2>Mô tả công việc</h2><p class="preserve-lines">${esc(item.description || "Doanh nghiệp chưa bổ sung mô tả.")}</p>
         <h2>Yêu cầu ứng viên</h2><p class="preserve-lines">${esc(item.requirements || "Liên hệ doanh nghiệp để biết thêm chi tiết.")}</p>
         ${available && user?.role === "student" ? `<a class="btn primary" href="${applyUrl}">Ứng tuyển vị trí này</a>` : !user && available ? '<a class="btn primary" href="login.html">Đăng nhập để ứng tuyển</a>' : !available ? '<p class="notice">Tin đã đóng hoặc hết hạn ứng tuyển.</p>' : ""}`;

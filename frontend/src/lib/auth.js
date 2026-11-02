@@ -25,7 +25,20 @@ function requireRole(roles) {
 
 function logout() { clearSession(); location.href = rootPrefix() + "src/pages/login.html"; }
 
+function renderFooter() {
+  if (document.querySelector("footer.site")) return;
+  const r = rootPrefix();
+  const f = document.createElement("footer");
+  f.className = "site";
+  f.innerHTML = `<div class="wrap"><p class="foot-name">Kết nối thực tập NEU</p>
+    <p class="foot-note">Đại học Kinh tế Quốc dân · Nền tảng kết nối sinh viên và doanh nghiệp thực tập.</p>
+    <p><a href="${r}src/pages/internships.html">Vị trí thực tập</a> <a href="${r}src/pages/chatbot.html">Trợ lý AI</a> <a href="${r}src/pages/login.html">Đăng nhập</a></p></div>`;
+  const toast = document.getElementById("toast");
+  document.body.insertBefore(f, toast || null);
+}
+
 function renderNav() {
+  renderFooter();
   const nav = document.getElementById("nav");
   if (!nav) return;
   const r = rootPrefix();

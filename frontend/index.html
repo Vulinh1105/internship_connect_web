@@ -3,28 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trang chủ · Internship Connect</title>
+<title>Trang chủ · Kết nối thực tập NEU</title>
 <link rel="stylesheet" href="src/styles/style.css">
+<link rel="icon" href="src/assets/logo-neu.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap">
 </head>
 <body data-page="home" data-root="">
-<header class="top"><div class="bar"><a class="brand" href="index.html">Internship Connect</a><nav id="nav"></nav></div></header>
-<main>
+<header class="top"><div class="bar"><a class="brand" href="index.html"><img src="src/assets/logo-neu.png" alt="" width="44" height="44"><span>Kết nối thực tập NEU</span></a><nav id="nav"></nav></div></header>
 <section class="hero">
-  <span class="hero-tag">BƯỚC ĐẦU CHO HÀNH TRÌNH NGHỀ NGHIỆP</span>
-  <h1>Cơ hội đầu tiên.<br><span>Khởi đầu của bạn.</span></h1>
-  <p>Kết nối với doanh nghiệp, tìm kỳ thực tập phù hợp và tự tin bước vào môi trường làm việc.</p>
-  <form id="searchForm" class="row" style="justify-content:center">
-    <input id="q" placeholder="Tìm theo vị trí, kỹ năng, công ty..." style="max-width:380px">
-    <button class="primary">Tìm kiếm</button>
-  </form>
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <h1>Từ giảng đường đến doanh nghiệp.</h1>
+      <p>Nền tảng kết nối sinh viên Đại học Kinh tế Quốc dân với doanh nghiệp: tìm kỳ thực tập phù hợp, ứng tuyển và theo dõi kết quả ở một nơi.</p>
+      <form id="searchForm" class="hero-search">
+        <label class="sr-only" for="q">Tìm vị trí thực tập</label>
+        <input id="q" placeholder="Vị trí, kỹ năng hoặc công ty...">
+        <button class="primary">Tìm thực tập</button>
+      </form>
+    </div>
+    <img class="hero-logo" src="src/assets/logo-neu.png" alt="Logo Trường Đại học Kinh tế Quốc dân" width="338" height="336">
+  </div>
 </section>
-<section class="journey grid cols-3" aria-label="Các bước tìm thực tập">
-  <div class="card"><span class="step-number">01</span><h2>Hoàn thiện hồ sơ</h2><p class="muted">Thể hiện ngành học, kỹ năng và đính kèm CV của bạn.</p></div>
-  <div class="card"><span class="step-number">02</span><h2>Tìm cơ hội phù hợp</h2><p class="muted">Khám phá vị trí thực tập và nhận gợi ý từ hồ sơ.</p></div>
-  <div class="card"><span class="step-number">03</span><h2>Theo dõi hành trình</h2><p class="muted">Ứng tuyển, cập nhật kết quả và xác nhận lịch phỏng vấn.</p></div>
+<main>
+<section class="steps">
+  <h2>Từ hồ sơ đến phỏng vấn</h2>
+  <ol>
+    <li><h3>Hoàn thiện hồ sơ</h3><p>Thể hiện ngành học, kỹ năng và đính kèm CV của bạn để doanh nghiệp hiểu bạn nhanh hơn.</p></li>
+    <li><h3>Tìm cơ hội phù hợp</h3><p>Khám phá vị trí thực tập đang mở và nhận gợi ý dựa trên chính hồ sơ của bạn.</p></li>
+    <li><h3>Theo dõi hành trình</h3><p>Ứng tuyển, cập nhật kết quả và xác nhận lịch phỏng vấn mà không bỏ lỡ thông báo nào.</p></li>
+  </ol>
 </section>
-<div class="card"><h2>Vị trí mới nhất</h2><div id="latest"><p class="muted">Đang tải...</p></div>
-  <a href="src/pages/internships.html">Xem tất cả →</a></div>
+<section class="latest">
+  <div class="page-heading"><h2>Vị trí mới nhất</h2><a class="btn" href="src/pages/internships.html">Xem tất cả vị trí</a></div>
+  <div id="latest"><p class="muted">Đang tải...</p></div>
+</section>
 </main>
 <div id="toast" role="status"></div>
 <script src="src/api/client.js"></script>
