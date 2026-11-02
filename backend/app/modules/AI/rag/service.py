@@ -12,7 +12,7 @@ def ask(db, question, session_id):
         result = run_rag(question, session_id=session_id)
     except Exception as exc:
         log.exception("RAG dependency or provider unavailable")
-        raise HTTPException(503, "RAG chưa sẵn sàng. Kiểm tra OpenAI, Qdrant và dữ liệu đã index.") from exc
+        raise HTTPException(503, "Trợ lý AI tạm thời không thể xử lý câu hỏi. Vui lòng thử lại sau hoặc liên hệ quản trị viên.") from exc
     return {**result, "mode": "rag", "sources": [
         {"title": str(c.get("source", "")), "source": str(c.get("source", "")),
          "score": result.get("top_rerank_score") or 0.0}
