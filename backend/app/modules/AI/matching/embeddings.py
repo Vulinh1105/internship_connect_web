@@ -1,8 +1,8 @@
-"""Chuyển văn bản thành vector.
+﻿"""Chuyß╗ân v─ân bß║ún th├ánh vector.
 
-Mặc định dùng 'hashing embedder': nhẹ, chạy offline, không cần tải model, hiểu được từ khóa
-(Python, FastAPI, SQL...) và bỏ dấu tiếng Việt. Muốn chính xác hơn về ngữ nghĩa thì đặt
-EMBEDDING_BACKEND=sentence_transformers và cài thêm gói sentence-transformers.
+Mß║╖c ─æß╗ïnh d├╣ng 'hashing embedder': nhß║╣, chß║íy offline, kh├┤ng cß║ºn tß║úi model, hiß╗âu ─æ╞░ß╗úc tß╗½ kh├│a
+(Python, FastAPI, SQL...) v├á bß╗Å dß║Ñu tiß║┐ng Viß╗çt. Muß╗æn ch├¡nh x├íc h╞ín vß╗ü ngß╗» ngh─⌐a th├¼ ─æß║╖t
+EMBEDDING_BACKEND=sentence_transformers v├á c├ái th├¬m g├│i sentence-transformers.
 """
 import hashlib
 import logging
@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 DIM = 512
 
-# Từ rất phổ biến (đã bỏ dấu) không mang nhiều ý nghĩa
+# Tß╗½ rß║Ñt phß╗ò biß║┐n (─æ├ú bß╗Å dß║Ñu) kh├┤ng mang nhiß╗üu ├╜ ngh─⌐a
 _STOPWORDS = {
     "va", "la", "cua", "cho", "cac", "mot", "nhung", "co", "duoc", "trong", "voi", "de", "khi",
     "se", "da", "can", "tai", "tu", "den", "the", "and", "of", "to", "in", "for", "a", "an", "or",
@@ -24,14 +24,14 @@ _STOPWORDS = {
 
 
 def strip_accents(text: str) -> str:
-    text = text.replace("đ", "d").replace("Đ", "D")
+    text = text.replace("─æ", "d").replace("─É", "D")
     decomposed = unicodedata.normalize("NFD", text)
     return "".join(c for c in decomposed if unicodedata.category(c) != "Mn")
 
 
 def tokenize(text: str) -> list[str]:
     text = strip_accents(text.lower())
-    tokens = re.findall(r"[a-z0-9+#.]+", text)  # giữ c++, c#, node.js
+    tokens = re.findall(r"[a-z0-9+#.]+", text)  # giß╗» c++, c#, node.js
     tokens = [t.strip(".") for t in tokens]
     return [t for t in tokens if t and t not in _STOPWORDS]
 
@@ -47,7 +47,7 @@ class HashingEmbedder:
         weights: dict[str, float] = {}
         for tok in tokens:
             weights[tok] = weights.get(tok, 0.0) + 1.0
-        for a, b in zip(tokens, tokens[1:]):  # cặp từ liền nhau, trọng số thấp hơn
+        for a, b in zip(tokens, tokens[1:]):  # cß║╖p tß╗½ liß╗ün nhau, trß╗ìng sß╗æ thß║Ñp h╞ín
             key = f"{a}_{b}"
             weights[key] = weights.get(key, 0.0) + 0.6
 
@@ -65,7 +65,7 @@ class SentenceTransformerEmbedder:
     name = "sentence_transformers"
 
     def __init__(self, model_name: str):
-        from sentence_transformers import SentenceTransformer  # chỉ cần khi chọn backend này
+        from sentence_transformers import SentenceTransformer  # chß╗ë cß║ºn khi chß╗ìn backend n├áy
 
         self._model = SentenceTransformer(model_name)
         self.dim = int(self._model.get_sentence_embedding_dimension())
@@ -77,14 +77,40 @@ class SentenceTransformerEmbedder:
 _embedder = None
 
 
+class OpenAIEmbedder:
+    """Reuse the RAG provider; keep matching scoring and ranking unchanged."""
+    name = "openai"
+
+    def __init__(self):
+        from app.modules.ai.providers.openai_client import create_embeddings
+        from fastapi import HTTPException
+        if not settings.OPENAI_API_KEY:
+            raise HTTPException(503, "Chưa cấu hình OPENAI_API_KEY trong file .env")
+        self._model = create_embeddings()
+        self.dim = 1536
+
+    def embed(self, text: str) -> list[float]:
+        from openai import OpenAIError
+        from fastapi import HTTPException
+        try:
+            vector = self._model.embed_query(text)
+        except OpenAIError as exc:
+            log.exception("OpenAI matching embedding unavailable")
+            raise HTTPException(503, "Không kết nối được OpenAI. Kiểm tra API key và hạn mức tài khoản.") from exc
+        self.dim = len(vector)
+        return vector
+
+
 def get_embedder():
     global _embedder
     if _embedder is None:
+        if settings.EMBEDDING_BACKEND == "openai":
+            _embedder = OpenAIEmbedder()
         if settings.EMBEDDING_BACKEND == "sentence_transformers":
             try:
                 _embedder = SentenceTransformerEmbedder(settings.EMBEDDING_MODEL)
             except Exception as exc:
-                log.warning("Không tải được sentence-transformers (%s). Dùng hashing embedder.", exc)
+                log.warning("Kh├┤ng tß║úi ─æ╞░ß╗úc sentence-transformers (%s). D├╣ng hashing embedder.", exc)
         if _embedder is None:
             _embedder = HashingEmbedder()
     return _embedder

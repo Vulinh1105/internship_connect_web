@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Tự tìm file .env từ thư mục hiện tại lên các thư mục cha
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parents[3] / ".env")
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
 
@@ -29,16 +29,18 @@ class Settings:
 
     # --- Web ---
     CORS_ORIGINS: list[str] = _split(os.getenv("CORS_ORIGINS", "*"))
-    UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", str(BACKEND_DIR / "uploads"))
+    UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", str(BACKEND_DIR / "data" / "runtime" / "uploads"))
 
     # --- AI ---
     VECTOR_BACKEND: str = os.getenv("VECTOR_BACKEND", "auto")  # auto | qdrant | memory
     QDRANT_PATH: str = os.getenv("QDRANT_PATH", str(BACKEND_DIR / "qdrant_data"))
-    EMBEDDING_BACKEND: str = os.getenv("EMBEDDING_BACKEND", "hashing")  # hashing | sentence_transformers
+    EMBEDDING_BACKEND: str = os.getenv("EMBEDDING_BACKEND", "openai")  # openai | hashing | sentence_transformers
     EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "paraphrase-multilingual-MiniLM-L12-v2")
-    LLM_API_KEY: str = os.getenv("LLM_API_KEY", "")
-    LLM_MODEL: str = os.getenv("LLM_MODEL", "claude-haiku-5-5")
-    LLM_API_URL: str = os.getenv("LLM_API_URL", "https://api.anthropic.com/v1/messages")
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_CHAT_MODEL: str = os.getenv("OPENAI_CHAT_MODEL", "gpt-4o-mini")
+    OPENAI_EMBEDDING_MODEL: str = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+    OPENAI_TIMEOUT: float = float(os.getenv("OPENAI_TIMEOUT", "45"))
+    OPENAI_MAX_RETRIES: int = int(os.getenv("OPENAI_MAX_RETRIES", "1"))
 
 
 settings = Settings()

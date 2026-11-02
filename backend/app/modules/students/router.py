@@ -10,6 +10,21 @@ from .schemas import CVOut, SkillCreate, SkillOut, StudentOut, StudentUpdate
 
 router = APIRouter(prefix="/api/students", tags=["M03 - Sinh viên"])
 
+
+@router.get("")
+def list_students(user: User = Depends(require_role("staff", "admin")),
+                  db: Session = Depends(get_db),
+                  page: int = 1, page_size: int = 20):
+    from app.utils.pagination import PageParams, make_page
+    from .repository import list_students as list_records
+    from .schemas import StudentOut
+    from fastapi import HTTPException
+    if page < 1 or not 1 <= page_size <= 100:
+        raise HTTPException(422, "Phân trang không hợp lệ")
+    params = PageParams(page=page, page_size=page_size)
+    rows, total = list_records(db, params)
+    return make_page([StudentOut.model_validate(s) for s in rows], total, params)
+
 _student_only = require_role("student")
 
 
@@ -63,6 +78,20 @@ def upload_my_cv(file: UploadFile = File(...), user: User = Depends(_student_onl
 def set_primary_cv(cv_id: int, user: User = Depends(_student_only), db: Session = Depends(get_db)):
     student = service.require_student_profile(db, user)
     return service.set_primary_cv(db, student, cv_id)
+
+
+@router.get("/me/cvs/{cv_id}/download")
+def download_my_cv(cv_id: int, user: User = Depends(_student_only), db: Session = Depends(get_db)):
+    from pathlib import Path
+    from fastapi.responses import FileResponse
+    from fastapi import HTTPException
+    student = service.require_student_profile(db, user)
+    cv = service.get_cv(db, cv_id)
+    if cv is None or cv.student_id != student.id:
+        raise HTTPException(404, "Không tìm thấy CV")
+    if not Path(cv.file_path).is_file():
+        raise HTTPException(404, "File CV không còn trên máy chủ")
+    return FileResponse(cv.file_path, filename=cv.file_name)
 
 
 @router.get("/{student_id}", response_model=StudentOut)

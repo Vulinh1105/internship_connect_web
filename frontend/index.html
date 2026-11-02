@@ -4,25 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trang chủ · Internship Connect</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="src/styles/style.css">
 </head>
 <body data-page="home" data-root="">
 <header class="top"><div class="bar"><a class="brand" href="index.html">Internship Connect</a><nav id="nav"></nav></div></header>
 <main>
 <section class="hero">
-  <h1>Kết nối sinh viên với doanh nghiệp thực tập</h1>
-  <p>Tìm vị trí thực tập phù hợp, nộp hồ sơ và theo dõi kết quả ngay trên một hệ thống.</p>
+  <span class="hero-tag">BƯỚC ĐẦU CHO HÀNH TRÌNH NGHỀ NGHIỆP</span>
+  <h1>Cơ hội đầu tiên.<br><span>Khởi đầu của bạn.</span></h1>
+  <p>Kết nối với doanh nghiệp, tìm kỳ thực tập phù hợp và tự tin bước vào môi trường làm việc.</p>
   <form id="searchForm" class="row" style="justify-content:center">
     <input id="q" placeholder="Tìm theo vị trí, kỹ năng, công ty..." style="max-width:380px">
     <button class="primary">Tìm kiếm</button>
   </form>
 </section>
+<section class="journey grid cols-3" aria-label="Các bước tìm thực tập">
+  <div class="card"><span class="step-number">01</span><h2>Hoàn thiện hồ sơ</h2><p class="muted">Thể hiện ngành học, kỹ năng và đính kèm CV của bạn.</p></div>
+  <div class="card"><span class="step-number">02</span><h2>Tìm cơ hội phù hợp</h2><p class="muted">Khám phá vị trí thực tập và nhận gợi ý từ hồ sơ.</p></div>
+  <div class="card"><span class="step-number">03</span><h2>Theo dõi hành trình</h2><p class="muted">Ứng tuyển, cập nhật kết quả và xác nhận lịch phỏng vấn.</p></div>
+</section>
 <div class="card"><h2>Vị trí mới nhất</h2><div id="latest"><p class="muted">Đang tải...</p></div>
-  <a href="pages/internships.html">Xem tất cả →</a></div>
+  <a href="src/pages/internships.html">Xem tất cả →</a></div>
 </main>
 <div id="toast" role="status"></div>
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/app.js"></script>
+<script src="src/api/client.js"></script>
+<script src="src/lib/auth.js"></script>
+<script src="src/lib/ui.js"></script>
+<script src="src/features/home.js"></script>
+<script src="src/features/auth.js"></script>
+<script src="src/features/internships.js"></script>
+<script src="src/features/student-profile.js"></script>
+<script src="src/features/applications.js"></script>
+<script src="src/features/company.js"></script>
+<script src="src/app/bootstrap.js"></script>
 </body>
 </html>

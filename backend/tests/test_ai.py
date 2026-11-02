@@ -59,26 +59,33 @@ def test_recommendations_student_only(client, company):
     assert client.get("/api/ai/recommendations", headers=company).status_code == 403
 
 
-def test_chat_answers_from_faq_with_sources(client, student):
+def test_chat_exposes_existing_pipeline_result(client, student, monkeypatch):
+    from app.modules.ai.rag import rag_pipeline
+    calls = []
+    def run(query, session_id, **kwargs):
+        calls.append((query, session_id))
+        return {"answer": "Câu trả lời từ pipeline", "citations": [{"source": "guide.pdf", "pages": [1]}],
+                "top_rerank_score": 0.8}
+    monkeypatch.setattr(rag_pipeline, "run_rag", run)
     r = client.post("/api/ai/chat", headers=student, json={"question": "Làm sao để rút hồ sơ ứng tuyển?"})
     assert r.status_code == 200, r.text
     body = r.json()
-    assert body["mode"] == "extractive"  # kiểm thử không dùng LLM
-    assert "rút" in body["answer"].lower()
-    assert body["sources"] and body["sources"][0]["source"] == "faq"
+    assert body["mode"] == "rag"
+    assert body["answer"] == "Câu trả lời từ pipeline"
+    assert body["sources"][0]["source"] == "guide.pdf"
+    assert calls[0][1].startswith("user:")
 
 
 def test_chat_requires_login(client):
     assert client.post("/api/ai/chat", json={"question": "xin chào bạn"}).status_code == 401
 
 
-def test_agent_routes_to_matching_for_students(client, company, student):
+def test_agent_dispatches_explicit_matching_tool(client, company, student):
     _post(client, company, "Thực tập sinh Python Backend", "Python, FastAPI")
     client.post("/api/students/me/skills", headers=student, json={"skill_name": "Python"})
-    r = client.post("/api/ai/agent", headers=student, json={"message": "Gợi ý cho tôi vị trí phù hợp"})
+    r = client.post("/api/ai/agent", headers=student, json={"message": "Gợi ý cho tôi vị trí phù hợp", "tool": "recommend_internships"})
     assert r.status_code == 200 and r.json()["tool"] == "recommend_internships"
-    r = client.post("/api/ai/agent", headers=student, json={"message": "Làm sao để rút hồ sơ?"})
-    assert r.json()["tool"] == "ask_knowledge"
+    assert r.json()["data"]["items"][0]["matched_skills"] == ["Python"]
 
 
 def test_reindex_staff_only(client, student):

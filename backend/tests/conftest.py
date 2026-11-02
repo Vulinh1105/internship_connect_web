@@ -10,7 +10,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 os.environ["DATABASE_URL"] = "sqlite://"
 os.environ["AUTO_CREATE_TABLES"] = "true"
 os.environ["VECTOR_BACKEND"] = "memory"
+os.environ["EMBEDDING_BACKEND"] = "hashing"
 os.environ["LLM_API_KEY"] = ""
+os.environ["OPENAI_API_KEY"] = "test-key-not-used-for-network"
 os.environ["UPLOAD_DIR"] = tempfile.mkdtemp(prefix="ic_uploads_")
 
 import pytest
@@ -19,7 +21,7 @@ from fastapi.testclient import TestClient
 from app.core.database import Base, engine
 from app.main import app
 from app.modules.ai.matching import service as matching_service
-from app.modules.ai.rag import retriever
+from app.modules.ai.rag import service as retriever
 
 PASSWORD = "Test@1234"
 

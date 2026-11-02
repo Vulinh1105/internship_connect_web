@@ -1,3 +1,4 @@
+from .repository import get_user_by_email
 import jwt
 from fastapi import HTTPException
 from sqlalchemy import select
@@ -15,8 +16,6 @@ from .models import User
 from .schemas import RegisterRequest, VerifyResponse
 
 
-def get_user_by_email(db: Session, email: str) -> User | None:
-    return db.scalar(select(User).where(User.email == email))
 
 
 def register(db: Session, data: RegisterRequest) -> User:

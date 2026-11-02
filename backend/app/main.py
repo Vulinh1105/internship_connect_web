@@ -5,6 +5,7 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 
 from app.core.config import settings
 from app.core.database import Base, engine
@@ -15,6 +16,8 @@ from app.modules.students import models as _student_models  # noqa: F401
 from app.modules.internships import models as _internship_models  # noqa: F401
 from app.modules.interviews import models as _interview_models  # noqa: F401
 
+from app.modules.documents import models as _document_models
+from app.modules.documents.router import router as documents_router
 from app.modules.ai.router import router as ai_router
 from app.modules.auth.router import router as auth_router
 from app.modules.internships.router import router as internships_router
@@ -48,11 +51,17 @@ app.include_router(students_router)
 app.include_router(internships_router)
 app.include_router(interviews_router)
 app.include_router(ai_router)
+app.include_router(documents_router)
 
 
 @app.get("/health", tags=["Hệ thống"])
 def health():
     return {"status": "ok"}
+
+
+@app.get("/", include_in_schema=False)
+def home():
+    return RedirectResponse("/app/")
 
 
 # Phục vụ luôn giao diện web tại http://localhost:8000/app/ (cùng nguồn gốc nên không vướng CORS)

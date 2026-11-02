@@ -1,5 +1,7 @@
 """Logic quản lý hồ sơ sinh viên. Các module khác (M13, interviews, ai) gọi các hàm ở đây
 thay vì tự truy vấn bảng students."""
+from .repository import get_student_by_user_id, get_student_by_id, get_cv, list_cvs
+
 import os
 from pathlib import Path
 from uuid import uuid4
@@ -20,16 +22,10 @@ MAX_CV_BYTES = 5 * 1024 * 1024
 
 
 # ---------- Hàm cho module khác dùng ----------
-def get_student_by_user_id(db: Session, user_id: int) -> Student | None:
-    return db.scalar(select(Student).where(Student.user_id == user_id))
 
 
-def get_student_by_id(db: Session, student_id: int) -> Student | None:
-    return db.get(Student, student_id)
 
 
-def get_cv(db: Session, cv_id: int) -> StudentCV | None:
-    return db.get(StudentCV, cv_id)
 
 
 def build_summary(student: Student) -> StudentSummary:
@@ -114,8 +110,6 @@ def remove_skill(db: Session, student: Student, skill_id: int) -> None:
 
 
 # ---------- CV ----------
-def list_cvs(db: Session, student: Student) -> list[StudentCV]:
-    return list(db.scalars(select(StudentCV).where(StudentCV.student_id == student.id).order_by(StudentCV.id)))
 
 
 def add_cv(db: Session, student: Student, upload: UploadFile) -> StudentCV:

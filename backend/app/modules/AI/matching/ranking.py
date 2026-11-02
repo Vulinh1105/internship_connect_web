@@ -1,11 +1,11 @@
-"""Tính điểm phù hợp và xếp hạng Top-K. Không phụ thuộc DB nên dễ kiểm thử."""
+﻿"""T├¡nh ─æiß╗âm ph├╣ hß╗úp v├á xß║┐p hß║íng Top-K. Kh├┤ng phß╗Ñ thuß╗Öc DB n├¬n dß╗à kiß╗âm thß╗¡."""
 import re
 
 from app.modules.ai.matching.embeddings import strip_accents
 
-W_SEMANTIC = 0.6   # trọng số độ tương đồng vector
-W_SKILL = 0.4      # trọng số trùng kỹ năng
-SKILL_SATURATION = 3  # trùng từ 3 kỹ năng trở lên thì đạt điểm kỹ năng tối đa
+W_SEMANTIC = 0.6   # trß╗ìng sß╗æ ─æß╗Ö t╞░╞íng ─æß╗ông vector
+W_SKILL = 0.4      # trß╗ìng sß╗æ tr├╣ng kß╗╣ n─âng
+SKILL_SATURATION = 3  # tr├╣ng tß╗½ 3 kß╗╣ n─âng trß╗ƒ l├¬n th├¼ ─æß║ít ─æiß╗âm kß╗╣ n─âng tß╗æi ─æa
 
 
 def _norm(text: str) -> str:
@@ -13,7 +13,7 @@ def _norm(text: str) -> str:
 
 
 def matched_skills(skills: list[str], text: str) -> list[str]:
-    """Các kỹ năng của sinh viên có xuất hiện (nguyên từ) trong nội dung tin thực tập."""
+    """C├íc kß╗╣ n─âng cß╗ºa sinh vi├¬n c├│ xuß║Ñt hiß╗çn (nguy├¬n tß╗½) trong nß╗Öi dung tin thß╗▒c tß║¡p."""
     haystack = _norm(text)
     found = []
     for skill in skills:
@@ -32,7 +32,7 @@ def score(cosine_value: float, n_matched: int) -> float:
 
 
 def rank_candidates(hits: list[tuple[int, float, dict]], student_skills: list[str], top_k: int) -> list[dict]:
-    """hits: danh sách (internship_id, cosine, payload) lấy từ kho vector."""
+    """hits: danh s├ích (internship_id, cosine, payload) lß║Ñy tß╗½ kho vector."""
     ranked = []
     for internship_id, cos, payload in hits:
         found = matched_skills(student_skills, payload.get("text", ""))

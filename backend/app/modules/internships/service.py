@@ -1,5 +1,6 @@
 """Logic nghiệp vụ M13: doanh nghiệp, tin thực tập, ứng tuyển, xét duyệt."""
 import os
+from .repository import get_company_by_user_id
 from datetime import date
 
 from fastapi import HTTPException
@@ -31,8 +32,6 @@ STATUS_TRANSITIONS = {
 
 
 # ======================= Doanh nghiệp =======================
-def get_company_by_user_id(db: Session, user_id: int) -> Company | None:
-    return db.scalar(select(Company).where(Company.user_id == user_id))
 
 
 def require_company(db: Session, user: User) -> Company:

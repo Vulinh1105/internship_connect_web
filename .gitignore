@@ -1,0 +1,39 @@
+backend/data/rag-index/
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+.idea/
+.pytest_cache/
+*.db
+data/runtime/
+backend/uploads/
+backend/qdrant_data/
+node_modules/
+dist/
+.codex-backups/
+# Python cache
+# Virtual environment
+env/
+# Environment variables and secrets
+.env.*
+!.env.example
+# IDE
+.vscode/
+# Test and coverage
+.coverage
+htmlcov/
+# Python packaging
+build/
+*.egg-info/
+# Logs
+*.log
+# Local database files
+*.sqlite3
+# OS files
+.DS_Store
+Thumbs.db
+# Jupyter
+.ipynb_checkpoints/
+backend/data/runtime/
